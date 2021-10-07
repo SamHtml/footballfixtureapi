@@ -31,10 +31,14 @@ def get_fixtures(date:str):
             names = [abbr.get("title") for abbr in item.find_all("abbr")]
             images = [img.get("src") for img in item.find_all("img")]
             timing = [date.get("data-date") for date in item.find_all("td",attrs={"data-behavior":"date_time"})]
+            if timing == []:
+                timing = ["live" for _ in item.find_all("td",attrs={"class":"live"})]
+            
+            if names == [] and images == [] and timing == []:
+                continue
+
             data[lg_name].append((names,images,timing))
 
     return data
-
-print(get_fixtures("20211220"))
 
 
