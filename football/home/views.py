@@ -14,13 +14,18 @@ def api(request,slug):
     try:
         if datetime.datetime.strptime(str(slug), '%Y%m%d'):
             return Response( get_fixtures(str(slug)) )
-    
+
     except:
-        return HttpResponse("an error occured date must be in format yyyymmdd",status=404)
+        return Response("an error occured date must be in format yyyymmdd",status=404)
 
 # return homepage of website
 def home(request):
-    return render(request,"index.html")
+    if request.method == "POST":
+        date = request.POST.get("date").replace("-","")
+    else:
+        date = datetime.date.today().strftime("%Y%m%d")
+
+    return render(request,"index.html",context={"data": get_fixtures(date), "date":f"{date[6:]} {date[4:6]} {date[:4]}'s"})
 
 
 # function for scraping data
