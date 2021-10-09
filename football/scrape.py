@@ -31,9 +31,18 @@ def get_fixtures(date:str):
             names = [abbr.get("title") for abbr in item.find_all("abbr")]
             images = [img.get("src") for img in item.find_all("img")]
             timing = [date.get("data-date") for date in item.find_all("td",attrs={"data-behavior":"date_time"})]
+            score = [score.text for score in item.find_all("span",attrs={"class":"record"})]
+            # checking for live
             if timing == []:
                 timing = ["live" for _ in item.find_all("td",attrs={"class":"live"})]
+            # checking for TBD
+            if timing == []:
+                timing = [time.text for time in item.find_all("a",attrs={"name":"&lpos=null:schedule:time"})]
             
+            # checking for postponed
+            if timing == []:
+                timing = [time.text for time in item.find_all("a",attrs={"name":"&lpos=null:schedule:score"}) if time.text == "Postponed"]
+
             if names == [] and images == [] and timing == []:
                 continue
 
