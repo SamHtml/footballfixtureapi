@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from football.settings import STATIC_ROOT
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import datetime
@@ -66,7 +65,7 @@ def get_fixtures(date:str):
                 name = name.replace("/","")
                 name = name.replace("\\","")
                 
-                if os.path.exists(os.path.join( STATIC_ROOT, f"/images/logos/{name}.png")):
+                if os.path.exists("../static/images/logos/{name}.png"):
                     images.append(f"/static/images/logos/{name}.png")
                 else:
                     images.append("/static/images/logos/default.png")
