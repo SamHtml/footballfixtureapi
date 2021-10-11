@@ -1,9 +1,12 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render
+from football.settings import STATIC_ROOT
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import datetime
 import requests
 from bs4 import BeautifulSoup
+import os
+
 
 # Create your views here.
 
@@ -39,14 +42,16 @@ def get_fixtures(date:str):
     url = f"https://www.espn.in/football/fixtures/_/date/{date}"
     # date in format yyyyddmm
 
+    # getting yhe source of url
     r = requests.get(url)
-
+    # making soup to extract infomation
     soup = BeautifulSoup(r.text, 'lxml')
-
+    # data will be appended here after extraction
     data={}
-
+    # getting leauge_names on the page
     leauge_names = soup.find_all("h2",attrs={"class":"table-caption"})
 
+    # getting getting other info inside leauge
     for leauge in leauge_names:
         lg_name = leauge.text
         raw_data = leauge.next_sibling.findAll("tr",attrs={"class":["odd","even"]})
@@ -55,7 +60,17 @@ def get_fixtures(date:str):
 
         for item in raw_data:
             names = [abbr.get("title") for abbr in item.find_all("abbr")]
-            images = [img.get("src") for img in item.find_all("img")]
+            images = []
+            # getting the image urls from our system
+            for name in names:
+                name = name.replace("/","")
+                name = name.replace("\\","")
+                
+                if os.path.exists(os.path.join( STATIC_ROOT, f"/images/logos/{name}.png")):
+                    images.append(f"/static/images/logos/{name}.png")
+                else:
+                    images.append("/static/images/logos/default.png")
+            # getting timings
             timing = [date.get("data-date") for date in item.find_all("td",attrs={"data-behavior":"date_time"})]
             score = [score.text for score in item.find_all("span",attrs={"class":"record"})]
             # checking for live

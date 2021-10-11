@@ -132,7 +132,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS=[
 		os.path.join(BASE_DIR,"static/"),
 			]
-
+STATIC_ROOT = ""
 
 # environment setup
 if os.environ.get("PRODUCTION")=="TRUE":
@@ -140,10 +140,3 @@ if os.environ.get("PRODUCTION")=="TRUE":
 	MIDDLEWARE.append( 'whitenoise.middleware.WhiteNoiseMiddleware')
 	DEBUG=False
 
-# REST_FRAMEWORK = {
-#     # Use Django's standard `django.contrib.auth` permissions,
-#     # or allow read-only access for unauthenticated users.
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-#     ]
-# }
