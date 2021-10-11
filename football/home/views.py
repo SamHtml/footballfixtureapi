@@ -65,10 +65,11 @@ def get_fixtures(date:str):
                 name = name.replace("/","")
                 name = name.replace("\\","")
                 
-                if os.path.exists("../static/images/logos/{name}.png"):
+                if os.path.exists(os.path.abspath(f"static/images/logos/{name}.png")):
                     images.append(f"/static/images/logos/{name}.png")
                 else:
                     images.append("/static/images/logos/default.png")
+
             # getting timings
             timing = [date.get("data-date") for date in item.find_all("td",attrs={"data-behavior":"date_time"})]
             score = [score.text for score in item.find_all("span",attrs={"class":"record"})]
