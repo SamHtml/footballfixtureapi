@@ -18,3 +18,7 @@ function filter(pattern){
 
     })
 }
+// google translation
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+  }
