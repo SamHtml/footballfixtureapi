@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-lmw8m$wv81dw1u!g*il5^kbpqpo4d6n%3sq8&#y&rom)b0b_@w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["sf-matchfix.herokuapp.com","127.0.0.1","192.168.29.192"]
-
+ALLOWED_HOSTS = ["*","sf-matchfix.herokuapp.com","127.0.0.1","192.168.29.192"]
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "home.apps.HomeConfig",
     'rest_framework',
+	'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'football.urls'
