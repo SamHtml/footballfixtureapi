@@ -90,7 +90,11 @@ class scraper:
         # data will be appended here after extraction
         data = {}
         # getting game date
-        game_date_time = soup.find("span",attrs={"data-behavior":"date_time"}).get("data-date")
+        try:
+            game_date_time = soup.find('div',attrs={'class':'game-status'}).find("span",attrs={"data-behavior":"date_time"}).get("data-date")
+        except:
+            game_date_time =  soup.find('span',attrs={"class":["score", "icon-font-before"],"data-home-away":"home"}).text.strip() +" - "+ soup.find('span',attrs={"class":["score", "icon-font-before"],"data-home-away":"away"}).text.strip()
+
         home = soup.find("div",attrs={"class":["team away"]}).find("span",attrs={"class":"long-name"}).text
         away = soup.find("div",attrs={"class":["team home"]}).find("span",attrs={"class":"long-name"}).text
 
